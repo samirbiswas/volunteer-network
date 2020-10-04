@@ -1,0 +1,18 @@
+.icon-settings{
+    margin: 20%;
+    border: 1px solid red;
+    padding-left: 10%;
+}
+
+
+
+.icon-settings img{
+    height: 50px;
+   cursor: pointer;
+   padding-top: 5px;
+  
+}
+.icon-settings h4{
+    padding-left: 15px;
+    padding-top: 10px;
+}
