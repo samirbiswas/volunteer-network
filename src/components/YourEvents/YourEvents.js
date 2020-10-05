@@ -16,9 +16,7 @@ const YourEvents = () => {
             {
                 event.map(events=> <li>{events.date}</li>)
             }
-        
-                
-                    
+                         
                 
         </div>
     );

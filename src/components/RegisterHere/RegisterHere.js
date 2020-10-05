@@ -1,77 +1,96 @@
 
-import React, { useContext, useState } from 'react';
+import React,{useContext, useEffect, useState} from 'react';
+import ReactDatePicker from 'react-datepicker';
+import { Controller, useForm } from "react-hook-form";
+import "react-datepicker/dist/react-datepicker.css";
 import { useHistory, useParams } from 'react-router-dom';
-import Data from '../../fakeData';
 import { UserContext } from '../../App';
 
 
 const RegisterHere = () => {
      
-    const history=useHistory();
-    const [loggesinUser] = useContext(UserContext);
-    //console.log(loggesinUser);
-    const [froms, setForms]=useState({eventName:loggesinUser.e?.name, email:loggesinUser.email,  img:loggesinUser.e?.img,date:new Date().toDateString()});
-    
-    const fromHandel =(e)=>{
-      e.preventDefault()
-        fetch('http://localhost:5000/addVolunteer',{
-            method:'POST', 
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(froms)
-        })
-        .then(res=>res.text())
-        .then(data=>{
-          if(data === 'true'){ 
-            history.push('/yourevents')
-        }
-        })
-    }
+  const {id} =useParams();
+  const [events , setEvent] =useState([]);
+  const [loggesinUser, setLoggedInUser]= useContext(UserContext);
+  const history =useHistory();
+  useEffect(()=>{
+      fetch('http://localhost:5000/fine/'+id)
+      .then(res=>res.json())
+      .then(data=>{
+          setEvent(data);
 
-    const cccc = ()=>{
-      
-    }
+      })
+  }, [id])
+  console.log(events);
     
-    const {id} =useParams();
-    const datas = Data.find(dt=> dt.id == id );
-    const aaa = datas.title;
-    console.log(aaa);
-    
+  const { register, handleSubmit, errors, control } = useForm();
+    const onSubmit = data => {
+    const eventDetails ={picture : events.picture, ...data} ;
+  
+     
+    fetch('http://localhost:5000/add',{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json',
+                    'Accept': 'application/json' },
+        body: JSON.stringify(eventDetails)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+       
+        console.log(data)
+    })
+    history.push('/yourevents');
+  }
      
     return (
-        <div className="container">
-          <form onSubmit={fromHandel}>
+       
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label >Name</label>
-              <input onBlur={(e)=>setForms({...froms,name:e.target.value})} type="name" className="form-control" id="name" placeholder="name" value={loggesinUser?.name}/>
+              <input value={loggesinUser.name} id="inputName" name="fullName" className="form-control" ref={register({ required: true })}
+                    />
 
             </div>
 
             <div className="form-group">
               <label >Email</label>
-              <input onChange={(e)=>setForms({...froms,email:e.target.value})} type="email" className="form-control" id="email" placeholder="email" value={loggesinUser?.email}/>
+              <input value={loggesinUser.email} id="email" name="email" className="form-control" ref={register({ required: true })}/>
             </div>
 
             <div className="form-group">
               <label >Date</label>
-              <input onChange={(e)=>setForms({...froms,date:e.target.value})} type="none" className="form-control" id="date" placeholder="date" value={new Date().toDateString()}/>
+              <Controller
+                        control={control}
+                        name="ReactDatepicker"
+                     
+                        render={({ onChange, onBlur, value}) => (
+                      
+                        <ReactDatePicker
+                            
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            //selected={value}
+                            selected ={value}
+                        />
+                        )}
+                    />
             </div>
 
             <div className="form-group">
-              <label >Description</label>
-              <input onChange={(e)=>setForms({...froms,description:e.target.value})} type="description" className="form-control" id="description" placeholder="Description"/>
+              <label htmlFor="description">Description</label>
+              <input id="Description" name="Description" className="form-control" ref={register({ required: true })} />    
             </div>
             <div className="form-group">
-              <label >Orginize books at the library</label>
-              <input onChange={(e)=>setForms({...froms,eventName:e.target.value})} type="eventName" className="form-control" id="eventName" placeholder="eventName" />
+              <label htmlFor="organization">Orginize books at the library</label>
+
+              <input value={events.name} id="organization" name="organization"  className="form-control" ref={register({ required: true })} />
             </div>
             
-            <button onClick={cccc} type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary">Submit</button>
           </form>
-          </div>              
+                    
     ) 
              
-        
-     
 };
 
 export default RegisterHere;
@@ -79,3 +98,5 @@ export default RegisterHere;
 
 
 
+
+            
