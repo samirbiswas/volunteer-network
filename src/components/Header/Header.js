@@ -34,7 +34,7 @@ const Header = () => {
               <a className="nav-link" href="/">Register</a>
             </li>
             <li className="nav-item">
-              <a style={{backgroundColor:'skyblue',color:'white'}} className="nav-link" href="/">{loggesinUser.displayName}</a>
+              <a style={{backgroundColor:'skyblue',color:'white'}} className="nav-link" href="/">{loggesinUser.name}</a>
             </li>
 
             

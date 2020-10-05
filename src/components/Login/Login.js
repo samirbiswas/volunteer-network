@@ -23,7 +23,7 @@ const Login = () => {
         .then(res=>{
             const {displayName, email} = res.user;
            console.log(displayName,email);
-           const signInUser = {displayName, email};
+           const signInUser = {name:displayName, email};
            setLoggedInUser(signInUser);
            history.replace(from);
            

@@ -5,49 +5,45 @@ import { Controller, useForm } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
 import { useHistory, useParams } from 'react-router-dom';
 import { UserContext } from '../../App';
-
-
+import Data from '../../fakeData';
+import './RegisterHere.css'
 const RegisterHere = () => {
      
   const {id} =useParams();
-  const [events , setEvent] =useState([]);
+  const valur = Data.find(dt => dt.id && dt.id.toString() === id.toString());
+
   const [loggesinUser, setLoggedInUser]= useContext(UserContext);
   const history =useHistory();
-  useEffect(()=>{
-      fetch('http://localhost:5000/fine/'+id)
-      .then(res=>res.json())
-      .then(data=>{
-          setEvent(data);
-
-      })
-  }, [id])
-  console.log(events);
+  
+   
+  console.log(valur);
     
-  const { register, handleSubmit, errors, control } = useForm();
-    const onSubmit = data => {
-    const eventDetails ={picture : events.picture, ...data} ;
+  const { register, handleSubmit,  control } = useForm();
+    const onSubmit = allData => {
+    const fullDetails ={picture: valur.picture, ...allData};
   
      
-    fetch('http://localhost:5000/add',{
+    fetch('http://localhost:5000/addVolunteer',{
         method: 'POST',
         headers: { 'Content-Type': 'application/json',
                     'Accept': 'application/json' },
-        body: JSON.stringify(eventDetails)
+        body: JSON.stringify(fullDetails)
     })
     .then(res=>res.json())
     .then(data=>{
-       
-        console.log(data)
+      console.log(data);
+      
     })
     history.push('/yourevents');
   }
      
     return (
-       
+       <div className="design">
+         <h2>Regitration Form</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label >Name</label>
-              <input value={loggesinUser.name} id="inputName" name="fullName" className="form-control" ref={register({ required: true })}
+              <input value={loggesinUser.name} id="inputName" name="name" className="form-control" ref={register({ required: true })}
                     />
 
             </div>
@@ -69,7 +65,7 @@ const RegisterHere = () => {
                             
                             onChange={onChange}
                             onBlur={onBlur}
-                            //selected={value}
+                            
                             selected ={value}
                         />
                         )}
@@ -81,14 +77,14 @@ const RegisterHere = () => {
               <input id="Description" name="Description" className="form-control" ref={register({ required: true })} />    
             </div>
             <div className="form-group">
-              <label htmlFor="organization">Orginize books at the library</label>
+              <label htmlFor="organization">Title of work</label>
 
-              <input value={events.name} id="organization" name="organization"  className="form-control" ref={register({ required: true })} />
+              <input value={valur.title} id="organization" name="organization"  className="form-control" ref={register({ required: true })} />
             </div>
             
             <button type="submit" className="btn btn-primary">Submit</button>
           </form>
-                    
+          </div>        
     ) 
              
 };
