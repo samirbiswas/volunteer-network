@@ -10,6 +10,7 @@ import {
 import RegisterHere from './components/RegisterHere/RegisterHere';
 import Login from './components/Login/Login';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import YourEvents from './components/YourEvents/YourEvents';
 export const UserContext = createContext()
 
 function App() {
@@ -24,12 +25,16 @@ function App() {
           <Route exact path='/'>
           <Home></Home>
           </Route>
+          <Route path="/yourevents">
+           <YourEvents></YourEvents>
+           </Route>
           <Route path="/login">
            <Login></Login>
            </Route>
           <PrivateRoute path='/register/:id'>
             <RegisterHere></RegisterHere>
           </PrivateRoute>
+          
         </Switch>
       </Router>
 

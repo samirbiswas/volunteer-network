@@ -1,13 +1,13 @@
 
 import React, { useContext, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-
+import Data from '../../fakeData';
 import { UserContext } from '../../App';
-import Data from '../../fakeData'
+
 
 const RegisterHere = () => {
-   
-    const history=useHistory()
+     
+    const history=useHistory();
     const [loggesinUser] = useContext(UserContext);
     //console.log(loggesinUser);
     const [froms, setForms]=useState({eventName:loggesinUser.e?.name, email:loggesinUser.email,  img:loggesinUser.e?.img,date:new Date().toDateString()});
@@ -21,9 +21,21 @@ const RegisterHere = () => {
         })
         .then(res=>res.text())
         .then(data=>{
-            console.log(data);
+          if(data === 'true'){ 
+            history.push('/yourevents')
+        }
         })
     }
+
+    const cccc = ()=>{
+      
+    }
+    
+    const {id} =useParams();
+    const datas = Data.find(dt=> dt.id == id );
+    const aaa = datas.title;
+    console.log(aaa);
+    
      
     return (
         <div className="container">
@@ -53,7 +65,7 @@ const RegisterHere = () => {
               <input onChange={(e)=>setForms({...froms,eventName:e.target.value})} type="eventName" className="form-control" id="eventName" placeholder="eventName" />
             </div>
             
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button onClick={cccc} type="submit" className="btn btn-primary">Submit</button>
           </form>
           </div>              
     ) 
