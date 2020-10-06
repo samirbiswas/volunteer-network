@@ -8,7 +8,7 @@ const YourEvents = () => {
 
 
     useEffect(()=>{
-        fetch('http://localhost:5000/showVolunteer')
+        fetch('https://immense-spire-07021.herokuapp.com/showVolunteer')
         .then(res=>res.json())
         .then(result=>{
             setVolunteerInfo(result)
@@ -19,7 +19,7 @@ const YourEvents = () => {
     const deleteVolunteer = (event,id)=>{
         //console.log("clicked", id)
         var a = event.target.parentNode;
-        fetch(`http://localhost:5000/delete/${id}`,{
+        fetch(`https://immense-spire-07021.herokuapp.com/delete/${id}`,{
             method:'DELETE'
 
         } )

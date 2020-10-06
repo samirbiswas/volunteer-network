@@ -25,15 +25,16 @@ function App() {
           <Route exact path='/'>
           <Home></Home>
           </Route>
-          <Route path="/yourevents">
-           <YourEvents></YourEvents>
-           </Route>
+          
           <Route path="/login">
            <Login></Login>
            </Route>
           <PrivateRoute path='/register/:id'>
             <RegisterHere></RegisterHere>
           </PrivateRoute>
+          <Route path="/yourevents">
+           <YourEvents></YourEvents>
+           </Route>
           
         </Switch>
       </Router>

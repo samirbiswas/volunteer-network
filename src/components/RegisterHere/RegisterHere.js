@@ -1,5 +1,5 @@
 
-import React,{useContext, useEffect, useState} from 'react';
+import React,{useContext} from 'react';
 import ReactDatePicker from 'react-datepicker';
 import { Controller, useForm } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,7 +12,7 @@ const RegisterHere = () => {
   const {id} =useParams();
   const valur = Data.find(dt => dt.id && dt.id.toString() === id.toString());
 
-  const [loggesinUser, setLoggedInUser]= useContext(UserContext);
+  const [loggesinUser]= useContext(UserContext);
   const history =useHistory();
   
    
@@ -23,7 +23,7 @@ const RegisterHere = () => {
     const fullDetails ={picture: valur.picture, ...allData};
   
      
-    fetch('http://localhost:5000/addVolunteer',{
+    fetch('https://immense-spire-07021.herokuapp.com/addVolunteer',{
         method: 'POST',
         headers: { 'Content-Type': 'application/json',
                     'Accept': 'application/json' },
